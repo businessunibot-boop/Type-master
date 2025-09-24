@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeMaster - Improve Your Typing Skills</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* Ad Banner Styles */
+        .ad-banner {
+            width: 100%;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px dashed #ccc;
+        }
+        
+        .ad-leaderboard {
+            width: 728px;
+            height: 90px;
+        }
+        
+        .ad-medrectangle {
+            width: 300px;
+            height: 250px;
+        }
+        
+        .ad-label {
+            font-size: 0.7rem;
+            color: #666;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            min-height: calc(100vh - 200px);
+            padding: 2rem 0;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #666;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+        }
+        
+        /* Typing Test Styles */
+        .typing-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-box {
+            padding: 1rem;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .text-display {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            min-height: 150px;
+        }
+        
+        .text-input {
+            width: 100%;
+            height: 120px;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            resize: none;
+            margin-bottom: 1.5rem;
+            transition: border 0.3s;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .result {
+            text-align: center;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            display: none;
+        }
+        
+        .result h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Practice Page Styles */
+        .practice-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .practice-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .practice-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .practice-card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .practice-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .practice-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section ul li a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Text highlighting */
+        .correct {
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .incorrect {
+            color: #dc3545;
+            background-color: #ffe6e6;
+            border-radius: 2px;
+        }
+        
+        .current {
+            background-color: #fff3cd;
+            border-radius: 2px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+            }
+            
+            .ad-leaderboard {
+                width: 100%;
+                max-width: 728px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-keyboard"></i>
+                    <span>TypeMaster</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                        <li><a href="#" class="nav-link" data-page="typing-test">Typing Test</a></li>
+                        <li><a href="#" class="nav-link" data-page="practice">Practice</a></li>
+                        <li><a href="#" class="nav-link" data-page="lessons">Lessons</a></li>
+                        <li><a href="#" class="nav-link" data-page="games">Games</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Top Ad Banner -->
+    <div class="container">
+        <div class="ad-banner">
+            <div class="ad-leaderboard">
+                <!-- Adsterra Leaderboard Ad (728x90) -->
+                Advertisement: Leaderboard Banner
+            </div>
+        </div>
+        <div class="ad-label">Advertisement</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <h1>Improve Your Typing Skills</h1>
+                <p>TypeMaster helps you type faster and more accurately through fun exercises, tests, and games. Whether you're a beginner or looking to enhance your skills, we have something for everyone.</p>
+                <a href="#" class="btn btn-large start-typing" data-page="typing-test">Start Typing Test</a>
+            </div>
+            
+            <div class="ad-banner">
+                <div class="ad-medrectangle">
+                    <!-- Adsterra Medium Rectangle Ad (300x250) -->
+                    Advertisement: Medium Rectangle
+                </div>
+            </div>
+            <div class="ad-label">Advertisement</div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                    <i class="fas fa-tachometer-alt" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                    <h3>Speed Test</h3>
+                    <p>Test your typing speed and accuracy with our timed tests.</p>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                    <i class="fas fa-book" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                    <h3>Practice Lessons</h3>
+                    <p>Follow structured lessons to improve your typing technique.</p>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                    <i class="fas fa-gamepad" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                    <h3>Typing Games</h3>
+                    <p>Make learning fun with our engaging typing games.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typing Test Page -->
+        <div id="typing-test" class="page">
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Typing Speed Test</h2>
+            <div class="typing-container">
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="wpm">0</div>
+                        <div class="stat-label">WPM</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="accuracy">100%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="timer">60</div>
+                        <div class="stat-label">Seconds</div>
+                    </div>
+                </div>
+                
+                <div class="text-display" id="text-display">
+                    Press the Start Test button to begin. Type the text as quickly and accurately as possible.
+                </div>
+                
+                <textarea class="text-input" id="text-input" placeholder="Click 'Start Test' and begin typing here..." disabled></textarea>
+                
+                <div class="controls">
+                    <button class="btn" id="start-btn">Start Test</button>
+                    <button class="btn" id="reset-btn" disabled>Reset</button>
+                </div>
+                
+                <div class="result" id="result">
+                    <h3>Your Typing Results</h3>
+                    <div style="display: flex; justify-content: space-around; margin-top: 1rem;">
+                        <div>
+                            <div class="stat-value" id="final-wpm">0</div>
+                            <div class="stat-label">WPM</div>
+                        </div>
+                        <div>
+                            <div class="stat-value" id="final-accuracy">100%</div>
+                            <div class="stat-label">Accuracy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ad-banner">
+                <div class="ad-medrectangle">
+                    <!-- Adsterra Medium Rectangle Ad (300x250) -->
+                    Advertisement: Medium Rectangle
+                </div>
+            </div>
+            <div class="ad-label">Advertisement</div>
+        </div>
+
+        <!-- Practice Page -->
+        <div id="practice" class="page">
+            <h2 style="margin-bottom: 1rem; color: var(--primary);">Typing Practice</h2>
+            <p>Choose a practice mode to improve your typing skills:</p>
+            
+            <div class="practice-options">
+                <div class="practice-card">
+                    <i class="fas fa-keyboard"></i>
+                    <h3>Beginner Lessons</h3>
+                    <p>Start with the basics. Learn proper finger placement and typing technique.</p>
+                    <a href="#" class="btn">Start Practice</a>
+                </div>
+                <div class="practice-card">
+                    <i class="fas fa-running"></i>
+                    <h3>Speed Building</h3>
+                    <p>Practice with common words and phrases to increase your typing speed.</p>
+                    <a href="#" class="btn">Start Practice</a>
+                </div>
+                <div class="practice-card">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>Accuracy Drills</h3>
+                    <p>Focus on precision with exercises designed to improve your accuracy.</p>
+                    <a href="#" class="btn">Start Practice</a>
+                </div>
+            </div>
+            
+            <div class="ad-banner" style="margin-top: 2rem;">
+                <div class="ad-leaderboard">
+                    <!-- Adsterra Leaderboard Ad (728x90) -->
+                    Advertisement: Leaderboard Banner
+                </div>
+            </div>
+            <div class="ad-label">Advertisement</div>
+        </div>
+
+        <!-- Lessons Page -->
+        <div id="lessons" class="page">
+            <h2 style="margin-bottom: 1rem; color: var(--primary);">Typing Lessons</h2>
+            <p>Follow our structured lessons to become a typing master:</p>
+            
+            <div style="background: white; border-radius: 10px; padding: 2rem; margin-top: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+                    <h3>Lesson 1: Home Row Keys</h3>
+                    <span style="background: #e9ecef; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem;">Beginner</span>
+                </div>
+                <p>Learn the home row keys (ASDF JKL;) and proper finger placement.</p>
+                <a href="#" class="btn" style="margin-top: 1rem;">Start Lesson</a>
+            </div>
+            
+            <div style="background: white; border-radius: 10px; padding: 2rem; margin-top: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+                    <h3>Lesson 2: Top Row Keys</h3>
+                    <span style="background: #e9ecef; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem;">Beginner</span>
+                </div>
+                <p>Practice with the QWERTYUIOP keys above the home row.</p>
+                <a href="#" class="btn" style="margin-top: 1rem;">Start Lesson</a>
+            </div>
+            
+            <div style="background: white; border-radius: 10px; padding: 2rem; margin-top: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+                    <h3>Lesson 3: Bottom Row Keys</h3>
+                    <span style="background: #e9ecef; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem;">Intermediate</span>
+                </div>
+                <p>Master the ZXCVBNM keys below the home row.</p>
+                <a href="#" class="btn" style="margin-top: 1rem;">Start Lesson</a>
+            </div>
+        </div>
+
+        <!-- Games Page -->
+        <div id="games" class="page">
+            <h2 style="margin-bottom: 1rem; color: var(--primary);">Typing Games</h2>
+            <p>Have fun while improving your typing skills with these games:</p>
+            
+            <div class="practice-options">
+                <div class="practice-card">
+                    <i class="fas fa-ghost"></i>
+                    <h3>Type Attack</h3>
+                    <p>Type words quickly to defeat incoming space invaders.</p>
+                    <a href="#" class="btn">Play Game</a>
+                </div>
+                <div class="practice-card">
+                    <i class="fas fa-ghost"></i>
+                    <h3>Type Attack</h3>
+                    <p>Type words quickly to defeat incoming space invaders.</p>
+                    <a href="#" class="btn">Play Game</a>
+                </div>
+                <div class="practice-card">
+                    <i class="fas fa-keyboard"></i>
+                    <h3>Word Race</h3>
+                    <p>Race against the clock to type as many words as possible.</p>
+                    <a href="#" class="btn">Play Game</a>
+                </div>
+                <div class="practice-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Speed Typing</h3>
+                    <p>Test your speed with increasingly difficult word combinations.</p>
+                    <a href="#" class="btn">Play Game</a>
+                </div>
+            </div>
+            
+            <div class="ad-banner" style="margin-top: 2rem;">
+                <div class="ad-medrectangle">
+                    <!-- Adsterra Medium Rectangle Ad (300x250) -->
+                    Advertisement: Medium Rectangle
+                </div>
+            </div>
+            <div class="ad-label">Advertisement</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TypeMaster</h3>
+                    <p>Improve your typing skills with our free online typing tutor and speed tests.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#" data-page="home">Home</a></li>
+                        <li><a href="#" data-page="typing-test">Typing Test</a></li>
+                        <li><a href="#" data-page="practice">Practice</a></li>
+                        <li><a href="#" data-page="lessons">Lessons</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Typing Tips</a></li>
+                        <li><a href="#">Keyboard Shortcuts</a></li>
+                        <li><a href="#">Typing Certificates</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TypeMaster. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation
+        document.querySelectorAll('.nav-link, .start-typing').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Show selected page
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+
+        // Typing Test Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const textDisplay = document.getElementById('text-display');
+            const textInput = document.getElementById('text-input');
+            const startBtn = document.getElementById('start-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const wpmElement = document.getElementById('wpm');
+            const accuracyElement = document.getElementById('accuracy');
+            const timerElement = document.getElementById('timer');
+            const resultElement = document.getElementById('result');
+            const finalWpmElement = document.getElementById('final-wpm');
+            const finalAccuracyElement = document.getElementById('final-accuracy');
+            
+            let timer;
+            let timeLeft = 60;
+            let isTestRunning = false;
+            let startTime;
+            let typedCharacters = 0;
+            let correctCharacters = 0;
+            let currentTextIndex = 0;
+            
+            // Sample texts for the test
+            const sampleTexts = [
+                "The quick brown fox jumps over the lazy dog. This classic sentence contains every letter in the English alphabet. Typing practice helps improve your speed and accuracy over time. Many professional typists can type over 80 words per minute with high accuracy.",
+                "Programming is the process of creating instructions that tell a computer how to perform tasks. Popular languages include JavaScript, Python, and C++. Web development uses HTML, CSS, and JavaScript. Learning to program opens up many career opportunities in technology.",
+                "Touch typing is typing without looking at the keyboard. This skill allows you to focus on content rather than mechanics. The home row keys are ASDF for the left hand and JKL; for the right hand. Proper posture and finger placement are essential for efficient typing.",
+                "The Internet connects millions of computers worldwide. Over 5 billion people use the Internet today. It has revolutionized communication, commerce, and education. The web continues to evolve with new technologies and applications emerging regularly.",
+                "Regular physical exercise helps control weight and reduces disease risk. Adults should aim for 150 minutes of activity weekly. Exercise improves mental health by reducing anxiety and depression. It also enhances cognitive function and overall wellbeing."
+            ];
+            
+            // Initialize with the first text
+            textDisplay.innerHTML = sampleTexts[currentTextIndex];
+            
+            // Start the test
+            startBtn.addEventListener('click', startTest);
+            
+            // Reset the test
+            resetBtn.addEventListener('click', resetTest);
+            
+            // Handle text input
+            textInput.addEventListener('input', handleInput);
+            
+            function startTest() {
+                if (isTestRunning) return;
+                
+                isTestRunning = true;
+                startBtn.disabled = true;
+                resetBtn.disabled = false;
+                textInput.disabled = false;
+                textInput.focus();
+                
+                // Reset values
+                timeLeft = 60;
+                typedCharacters = 0;
+                correctCharacters = 0;
+                startTime = new Date();
+                
+                // Update timer display
+                timerElement.textContent = timeLeft;
+                
+                // Start timer
+                timer = setInterval(updateTimer, 1000);
+                
+                // Change text to a new random one
+                currentTextIndex = Math.floor(Math.random() * sampleTexts.length);
+                textDisplay.innerHTML = sampleTexts[currentTextIndex];
+                highlightText();
+            }
+            
+            function resetTest() {
+                clearInterval(timer);
+                isTestRunning = false;
+                startBtn.disabled = false;
+                resetBtn.disabled = true;
+                textInput.disabled = true;
+                textInput.value = '';
+                
+                // Reset displays
+                wpmElement.textContent = '0';
+                accuracyElement.textContent = '100%';
+                timerElement.textContent = '60';
+                
+                // Hide result
+                resultElement.style.display = 'none';
+                
+                // Reset text display
+                textDisplay.innerHTML = sampleTexts[currentTextIndex];
+            }
+            
+            function updateTimer() {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    endTest();
+                }
+            }
+            
+            function handleInput() {
+                if (!isTestRunning) return;
+                
+                const typedText = textInput.value;
+                const originalText = textDisplay.textContent;
+                
+                typedCharacters = typedText.length;
+                
+                // Calculate correct characters
+                correctCharacters = 0;
+                for (let i = 0; i < typedText.length; i++) {
+                    if (i < originalText.length && typedText[i] === originalText[i]) {
+                        correctCharacters++;
+                    }
+                }
+                
+                // Calculate WPM and accuracy
+                const timeElapsed = (new Date() - startTime) / 1000 / 60; // in minutes
+                const wpm = Math.round((typedCharacters / 5) / timeElapsed);
+                const accuracy = Math.round((correctCharacters / typedCharacters) * 100) || 100;
+                
+                // Update displays
+                wpmElement.textContent = wpm;
+                accuracyElement.textContent = accuracy + '%';
+                
+                // Highlight text
+                highlightText();
+            }
+            
+            function highlightText() {
+                const typedText = textInput.value;
+                const originalText = textDisplay.textContent;
+                
+                let highlightedText = '';
+                
+                for (let i = 0; i < originalText.length; i++) {
+                    if (i < typedText.length) {
+                        if (typedText[i] === originalText[i]) {
+                            highlightedText += `<span class="correct">${originalText[i]}</span>`;
+                        } else {
+                            highlightedText += `<span class="incorrect">${originalText[i]}</span>`;
+                        }
+                    } else if (i === typedText.length) {
+                        highlightedText += `<span class="current">${originalText[i]}</span>`;
+                    } else {
+                        highlightedText += originalText[i];
+                    }
+                }
+                
+                textDisplay.innerHTML = highlightedText;
+            }
+            
+            function endTest() {
+                clearInterval(timer);
+                isTestRunning = false;
+                textInput.disabled = true;
+                
+                // Calculate final WPM and accuracy
+                const timeElapsed = 1; // 1 minute
+                const finalWpm = Math.round((typedCharacters / 5) / timeElapsed);
+                const finalAccuracy = Math.round((correctCharacters / typedCharacters) * 100) || 0;
+                
+                // Display final results
+                finalWpmElement.textContent = finalWpm;
+                finalAccuracyElement.textContent = finalAccuracy + '%';
+                resultElement.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
